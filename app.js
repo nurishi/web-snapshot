@@ -8,6 +8,11 @@ app.set('port', (process.env.PORT || 4004));
 
 app.get('/', async function(req, res, next) {
   try {
+    if (!req.query.url) {
+      res.json({image: ""});
+      return next();
+    }
+
     const browser = await puppeteer.launch({
       args: [
         '--enable-font-antialiasing',
