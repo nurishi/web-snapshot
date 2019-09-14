@@ -1,36 +1,37 @@
-var puppeteer = require('puppeteer');
-var express = require('express');
-var cors = require('cors')
-var app = express();
+const puppeteer = require("puppeteer");
+const express = require("express");
+const cors = require("cors");
+const app = express();
+
 app.use(cors());
 
-app.set('port', (process.env.PORT || 4004));
+app.set("port", process.env.PORT || 3000);
 
-app.get('/', async function(req, res, next) {
+app.get("/", async function(req, res, next) {
   try {
     if (!req.query.url) {
-      res.json({image: ""});
+      res.json({ image: "" });
       return next();
     }
 
     const browser = await puppeteer.launch({
       args: [
-        '--enable-font-antialiasing',
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
+        "--enable-font-antialiasing",
+        "--no-sandbox",
+        "--disable-setuid-sandbox"
       ]
-    })
-    const page = await browser.newPage()
-    await page.goto(req.query.url || 'google.com')
-    const b64string = await page.screenshot({ encoding: "base64" });
-    await browser.close()
-    res.send(JSON.stringify({image: "data:image/png;base64," + b64string}));
+    });
+    const page = await browser.newPage();
+    await page.goto(req.query.url);
+    const base64 = await page.screenshot({ encoding: "base64" });
+    await browser.close();
+    res.json({ image: `data:image/png;base64,${base64}` });
     next();
   } catch (error) {
     next(error);
   }
 });
 
-app.listen(app.get('port'), function() {
-  console.log("running at localhost:" + app.get('port'))
+app.listen(app.get("port"), function() {
+  console.log("running at localhost:" + app.get("port"));
 });
