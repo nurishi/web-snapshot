@@ -1,0 +1,19 @@
+{
+  "name": "Web Snapshot",
+  "description": "Express server that can take snapshot of any url provided as a query parameter",
+  "keywords": [
+    "node",
+    "express",
+    "puppeteer",
+    "screenshot",
+    "snapshot"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/CoffeeAndCode/puppeteer-heroku-buildpack.git"
+    }
+  ]
+}
